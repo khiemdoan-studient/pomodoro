@@ -19,6 +19,7 @@ export function useTimer(initialTime: number, onComplete?: () => void): UseTimer
   const startTimeRef = useRef<number | null>(null);
   const remainingTimeRef = useRef(initialTime);
   const animationFrameRef = useRef<number | null>(null);
+  const previousInitialTimeRef = useRef(initialTime);
 
   const tick = useCallback(() => {
     if (startTimeRef.current === null) return;
@@ -81,11 +82,22 @@ export function useTimer(initialTime: number, onComplete?: () => void): UseTimer
     };
   }, [isRunning, tick]);
 
-  // Update when initialTime changes (e.g., mode switch)
+  // Update when initialTime changes (e.g., mode switch) - only reset if the mode actually changed
   useEffect(() => {
-    if (!isRunning) {
+    if (initialTime !== previousInitialTimeRef.current) {
+      // Mode changed, reset the timer
       setTimeLeft(initialTime);
       remainingTimeRef.current = initialTime;
+      previousInitialTimeRef.current = initialTime;
+      // Stop the timer if it was running
+      if (isRunning) {
+        setIsRunning(false);
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
+        }
+        startTimeRef.current = null;
+      }
     }
   }, [initialTime, isRunning]);
 

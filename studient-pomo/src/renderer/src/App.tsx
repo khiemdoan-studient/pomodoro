@@ -9,6 +9,7 @@ import { TimerMode, Task, SessionRecord, AppSettings } from './types';
 import { TIMER_CONFIGS } from './constants';
 import { storage } from './utils/storage';
 import { generateId } from './utils/helpers';
+import StudientLogo from './assets/StudientLogoAndName.png';
 import './index.css';
 
 function App() {
@@ -117,34 +118,32 @@ function App() {
         }
       `}
     >
+      {/* White Header Bar */}
+      <div className="bg-white shadow-lg">
+        <div className="container mx-auto px-4 py-6 max-w-7xl">
+          <header className="flex items-center justify-between">
+            <div className="flex-1"></div>
+            <div className="text-center">
+              <img 
+                src={StudientLogo} 
+                alt="Studient" 
+                className="h-24 mx-auto"
+              />
+            </div>
+            <div className="flex-1 flex justify-end">
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className="p-3 rounded-full bg-purple-100 hover:bg-purple-200 text-purple-900 transition-all hover:scale-110"
+                title="Settings"
+              >
+                <Settings size={24} />
+              </button>
+            </div>
+          </header>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-12">
-          <div className="flex-1"></div>
-          <div className="text-center">
-            <img 
-              src="/StudientLogoAndName.png" 
-              alt="Studient" 
-              className="h-16 mx-auto"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                const fallback = document.createElement('h1');
-                fallback.className = 'text-4xl font-bold text-white';
-                fallback.textContent = 'Studient';
-                e.currentTarget.parentNode?.appendChild(fallback);
-              }}
-            />
-          </div>
-          <div className="flex-1 flex justify-end">
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="p-3 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all hover:scale-110"
-              title="Settings"
-            >
-              <Settings size={24} />
-            </button>
-          </div>
-        </header>
 
         {/* Mode Selector */}
         <div className="mb-8">
