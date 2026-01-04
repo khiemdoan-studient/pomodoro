@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { useTimer } from '../hooks/useTimer';
 import { TimerMode } from '../types';
